@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/chat")
 public class ChatController {
 
+    ChatMessage message = new ChatMessage("홍길동", "안녕하세요");
+
     @PostMapping("writeMessage")
     @ResponseBody
-    public String writeMessage() {
+    public RsData<ChatMessage> writeMessage() {
 
-        return "메세지 작성되었습니다.";
+        return new RsData<>("S-1", "메세지가 작성되었습니다.", message);
     }
 }
