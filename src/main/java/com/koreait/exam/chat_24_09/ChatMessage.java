@@ -14,6 +14,14 @@ public class ChatMessage {
     private String content;     // 작성글
 
     public ChatMessage(String autohorName, String content) {
-        this(1, LocalDateTime.now(), autohorName, content);     // constructor poll? pull? -> 다른 생성자 실행
+        this(ChatMessageIdGenerator.getNextId(), LocalDateTime.now(), autohorName, content);     // constructor poll? pull? -> 다른 생성자 실행
+    }
+}
+
+class ChatMessageIdGenerator {
+    private static long id = 0;
+
+    public static long getNextId() {
+        return ++id;
     }
 }
