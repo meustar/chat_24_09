@@ -1,9 +1,7 @@
 package com.koreait.exam.chat_24_09;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,5 +26,12 @@ public class ChatController {
         chatMessages.add(message);
 
         return new RsData<>("S-1", "메세지가 작성되었습니다.", new writeChatMessageResponse(message.getId()));
+    }
+
+    @GetMapping("/message")
+    @ResponseBody
+    public RsData<List<ChatMessage>> message() {
+
+        return new RsData<>("S-1", "메세지가 작성되었습니다.", chatMessages);
     }
 }

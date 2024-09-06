@@ -1,5 +1,6 @@
 package com.koreait.exam.chat_24_09;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 public class ChatMessage {
     private long id;
-    private LocalDateTime createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/seoul")
+    private LocalDateTime createDate;           // -> 2024-09-06T13:29:54.6490785
     private String autohorName; // 작성자
     private String content;     // 작성글
 
