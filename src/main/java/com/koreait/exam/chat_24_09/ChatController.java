@@ -26,7 +26,9 @@ public class ChatController {
     }
 
     public record writeMessageResponse(long id) {
+    }
 
+    public record messagesResponse(List<ChatMessage> chatMessages, long count) {
     }
 
     @PostMapping("/writeMessage")
@@ -42,8 +44,8 @@ public class ChatController {
 
     @GetMapping("/message")
     @ResponseBody
-    public RsData<List<ChatMessage>> message() {
+    public RsData<messagesResponse> message() {
 
-        return new RsData<>("S-1", "메세지가 작성되었습니다.", chatMessages);
+        return new RsData<>("S-1", "메세지가 작성되었습니다.", new messagesResponse(chatMessages, chatMessages.size()));
     }
 }
