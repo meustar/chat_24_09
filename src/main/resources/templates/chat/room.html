@@ -9,7 +9,7 @@
 
         </ul>
     </div>
-    <button onclick="Chat__loadMore();">로드</button>
+    <!--    <button onclick="Chat__loadMore();">로드</button>-->
 </div>
 
 
@@ -26,7 +26,6 @@
             body: JSON.stringify(data)
         }).then((response) => response.json());
     }
-
     function fetchGet(url, data) {
         let query = Object.keys(data)
             .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k]))
@@ -39,13 +38,10 @@
             }
         }).then((response) => response.json());
     }
-
     // 유틸리티 함수 끝
-
     // 채팅 메세지 작성 폼
     function Chat__submitWriteMessageForm(form) {
         form.authorName.value = form.authorName.value.trim();
-
         if (form.authorName.value.length == 0) {
             alert("작성자 누구??");
             form.authorName.focus();
@@ -65,15 +61,11 @@
         form.content.focus();
         // POST http://localhost:8080/chat/writeMessage
     }
-
     // 채팅 작성 폼 끝
-
-
     // 채팅 메세지 읽기 (read)
     // 클라이언트가 받은 메세지의 번호를 입력해야함
     // --> 메세지 가져오기 요청시에 필요한 부분만 잘라서 가져올 수 있다.
     let Chat__lastLoadedId = 0;
-
     function Chat__loadMore() {
         fetchGet("/chat/messages", {
             fromId: Chat__lastLoadedId
@@ -85,15 +77,14 @@
                 Chat__drawMessages(body.data.chatMessages);
             });
     }
-
-
     const Chat_elMessageUl = document.querySelector('.chat__message-ul');
 
     function Chat__drawMessages(messages) {
-        if (messages.length == 0) return;
+        if (messages.length > 0) {
+            // 메세지를 그리기 전에 Chat__lastLoadedUuid 변수를 갱신합니다.
+            Chat__lastLoadedId = messages[messages.length - 1].id;
+        }
 
-        // 메세지를 그리기 전에 Chat__lastLoadedUuid 변수를 갱신합니다.
-        Chat__lastLoadedId = messages[messages.length - 1].id;
         console.log(Chat__lastLoadedId);
 
         messages.forEach((message) => {
@@ -103,6 +94,11 @@
                     `<li>${message.authorName} : ${message.content}</li>`
                 );
         });
+        // Chat__loadMore(); 즉시실행
+        setTimeout(Chat__loadMore, 500); // 0.5초 뒤에 실행
     }
+
+    // 최초에 한번 불러오기
+    Chat__loadMore();
 
 </script>
